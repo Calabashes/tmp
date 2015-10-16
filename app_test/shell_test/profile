@@ -1,0 +1,45 @@
+# /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
+# and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
+
+if [ "$PS1" ]; then
+  if [ "$BASH" ] && [ "$BASH" != "/bin/sh" ]; then
+    # The file bash.bashrc already sets the default PS1.
+    # PS1='\h:\w\$ '
+    if [ -f /etc/bash.bashrc ]; then
+      . /etc/bash.bashrc
+    fi
+  else
+    if [ "`id -u`" -eq 0 ]; then
+      PS1='# '
+    else
+      PS1='$ '
+    fi
+  fi
+fi
+
+# The default umask is now handled by pam_umask.
+# See pam_umask(8) and /etc/login.defs.
+
+if [ -d /etc/profile.d ]; then
+  for i in /etc/profile.d/*.sh; do
+    if [ -r $i ]; then
+      . $i
+    fi
+  done
+  unset i
+fi
+
+export PATH=$PATH:/home/wangyf/work/gcc-linaro-arm-linux-gnueabihf-4.8-2013.10_linux/bin
+
+export set QTDIR=/Qt
+export set QPEDIR=/Qt
+export set LD_LIBRARY_PATH=$QTDIR/lib:/usr/local/lib:$LD_LIBRARY_PATH
+export set QT_QWS_FONTDIR=$QTDIR/lib/fonts/
+export set QWS_SIZE=800x480
+export set QWS_DISPLAY="LinuxFb:mmWidth80:mmHeight120:0"
+export set QWS_DISPLAY="LinuxFB:/dev/fb0"
+export set QT_PLUGIN_PATH=$QTDIR/plugins/
+export set QWS_KEYBOARD="TTY:/dev/tty1"
+export set QWS_MOUSE_PROTO="TSLIB:/dev/event4"
+export PATH=$QTDIR/bin:$PATH
+
